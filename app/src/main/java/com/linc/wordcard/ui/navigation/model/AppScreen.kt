@@ -1,5 +1,5 @@
 package com.linc.wordcard.ui.navigation.model
 
 enum class AppScreen {
-    Collections, NewCollection, Bookmarks, Card
+    SignIn, SignUp, Collections, NewCollection, Bookmarks, Card
 }

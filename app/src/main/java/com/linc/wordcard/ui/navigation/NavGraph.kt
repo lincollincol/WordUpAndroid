@@ -14,12 +14,14 @@ import com.linc.wordcard.ui.collections.CollectionsViewModel
 import com.linc.wordcard.ui.navigation.model.AppScreen
 import com.linc.wordcard.ui.newcollection.NewCollectionScreen
 import com.linc.wordcard.ui.newcollection.NewCollectionViewModel
+import com.linc.wordcard.ui.signin.SignInScreen
+import com.linc.wordcard.ui.signin.SignInViewModel
 import com.linc.wordcard.ui.word.WordViewModel
 
 @Composable
 fun AppNavGraph(
     modifier: Modifier = Modifier,
-    startDestination: AppScreen = AppScreen.Collections,
+    startDestination: AppScreen = AppScreen.SignIn,
     navHostController: NavHostController
 ) {
     NavHost(
@@ -28,6 +30,13 @@ fun AppNavGraph(
         navController = navHostController,
         startDestination = startDestination.name
     ) {
+        composable(route = AppScreen.SignIn.name) {
+            val viewModel = hiltViewModel<SignInViewModel>()
+            SignInScreen(
+                viewModel = viewModel,
+                navController = navHostController
+            )
+        }
         composable(route = AppScreen.Collections.name) {
             val viewModel = hiltViewModel<CollectionsViewModel>()
             CollectionsScreen(

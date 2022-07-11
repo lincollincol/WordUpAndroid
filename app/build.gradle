@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
+    id 'kotlinx-serialization'
     id 'dagger.hilt.android.plugin'
 }
 
@@ -83,10 +84,22 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
 
-    // Retrofit
-    def retrofit_version = "2.9.0"
-    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
-    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+//     Retrofit
+//    def retrofit_version = "2.9.0"
+//    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+//    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+
+    // Ktor
+    def ktor_version = '2.0.3'
+    implementation "io.ktor:ktor-client-core:$ktor_version"
+    implementation "io.ktor:ktor-client-android:$ktor_version"
+    implementation "io.ktor:ktor-client-okhttp:$ktor_version"
+    implementation "io.ktor:ktor-client-content-negotiation:$ktor_version"
+    implementation "io.ktor:ktor-client-serialization:$ktor_version"
+    implementation "io.ktor:ktor-serialization-kotlinx-json:$ktor_version"
+    implementation "io.ktor:ktor-client-auth:$ktor_version"
+    implementation "io.ktor:ktor-client-logging:$ktor_version"
+    implementation "ch.qos.logback:logback-classic:1.2.11"
 
     // OkHttp
     def okhttp_version = "4.9.3"
