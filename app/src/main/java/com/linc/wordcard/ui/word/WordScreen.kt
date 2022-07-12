@@ -12,7 +12,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import com.linc.wordcard.ui.theme.AppTheme
-import com.linc.wordcard.ui.theme.WordCardTheme
+import com.linc.wordcard.ui.theme.WordUpTheme
 import com.wajahatkarim.flippable.Flippable
 import com.wajahatkarim.flippable.rememberFlipController
 
@@ -85,7 +85,7 @@ fun WordCard(
             Text(
                 text = word,
                 color = AppTheme.colors.primaryContentColor,
-                style = AppTheme.typographies.card
+                style = AppTheme.typographies.h3
             )
         }
     }
@@ -113,7 +113,7 @@ fun CardControlButton(
 @Preview(heightDp = 640, widthDp = 420)
 @Composable
 fun WordCardPreview() {
-    WordCardTheme {
+    WordUpTheme {
         WordCard(word = "Word")
     }
 }

@@ -84,11 +84,6 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
 
-//     Retrofit
-//    def retrofit_version = "2.9.0"
-//    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
-//    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
-
     // Ktor
     def ktor_version = '2.0.3'
     implementation "io.ktor:ktor-client-core:$ktor_version"
@@ -118,6 +113,9 @@ dependencies {
 
     // Views
     implementation "com.wajahatkarim:flippable:1.0.4"
+
+    // Accompanist
+    implementation "com.google.accompanist:accompanist-systemuicontroller:0.19.0"
 
     // Utils
     def poi_version = "3.9"

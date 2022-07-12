@@ -1,26 +1,19 @@
 package com.linc.wordcard.ui.component
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.FolderOpen
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import com.linc.wordcard.ui.theme.AppTheme
-import com.linc.wordcard.ui.theme.WordCardTheme
+import com.linc.wordcard.ui.theme.WordUpTheme
 
 @Composable
 fun AppTextField(
@@ -31,6 +24,7 @@ fun AppTextField(
     startIcon: ImageVector? = null,
     endIcon: ImageVector? = null,
     elevation: Dp = AppTheme.dimens.elevationSmall,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
     value: String,
     hint: String,
     onValueChange: (String) -> Unit
@@ -42,6 +36,7 @@ fun AppTextField(
             .then(modifier),
         value = value,
         shape = fieldShape,
+        visualTransformation = visualTransformation,
         colors = TextFieldDefaults.textFieldColors(
             textColor = AppTheme.colors.secondaryContentColor,
             placeholderColor = AppTheme.colors.secondaryContentColor.copy(alpha = 0.5F),
@@ -69,7 +64,7 @@ fun AppTextField(
 @Preview
 @Composable
 fun AppTextFieldPreview() {
-    WordCardTheme {
+    WordUpTheme {
         AppTextField(value = "", hint = "hint", onValueChange = {})
     }
 }

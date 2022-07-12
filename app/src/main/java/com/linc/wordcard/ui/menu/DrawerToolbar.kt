@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import com.linc.wordcard.ui.theme.AppTheme
-import com.linc.wordcard.ui.theme.WordCardTheme
+import com.linc.wordcard.ui.theme.WordUpTheme
 
 @Composable
 fun DrawerToolbar(
@@ -37,7 +37,7 @@ fun DrawerToolbar(
 @Preview
 @Composable
 fun DrawerToolbarPreview() {
-    WordCardTheme {
+    WordUpTheme {
         DrawerToolbar(
             title = "Title",
             elevation = AppTheme.dimens.paddingMedium,

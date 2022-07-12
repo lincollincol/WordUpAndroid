@@ -8,6 +8,10 @@ import androidx.compose.ui.unit.sp
 import okhttp3.internal.notify
 
 // Set of Material typography styles to start with
+
+val typographies = Typography()
+
+/*
 data class Typographies(
     val title: TextStyle,
     val drawer: TextStyle,
@@ -60,4 +64,4 @@ val typographies = Typographies(
         fontWeight = FontWeight.Bold,
         fontSize = 22.sp
     ),
-)
+)*/

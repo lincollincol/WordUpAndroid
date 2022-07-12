@@ -1,6 +1,5 @@
 package com.linc.wordcard.ui.collections
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -11,17 +10,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
-import androidx.navigation.navOptions
 import com.linc.wordcard.entity.WordsCollection
 import com.linc.wordcard.ui.component.AppFloatingActionButton
 import com.linc.wordcard.ui.navigation.model.AppScreen
 import com.linc.wordcard.ui.theme.AppTheme
-import com.linc.wordcard.ui.theme.WordCardTheme
+import com.linc.wordcard.ui.theme.WordUpTheme
 
 @Composable
 fun CollectionsScreen(
@@ -82,14 +78,14 @@ fun CollectionItem(
         ) {
             Text(
                 text = collection.name,
-                style = AppTheme.typographies.medium,
+                style = AppTheme.typographies.h6,
                 fontWeight = FontWeight.Bold,
                 color = AppTheme.colors.secondaryContentColor
             )
             Spacer(modifier = Modifier.height(AppTheme.dimens.paddingSmall))
             Text(
                 text = "words: ${collection.words.count()}",
-                style = AppTheme.typographies.small,
+                style = AppTheme.typographies.caption,
                 color = AppTheme.colors.secondaryContentColor
             )
         }
@@ -99,7 +95,7 @@ fun CollectionItem(
 @Preview
 @Composable
 fun CollectionItemPreview() {
-    WordCardTheme {
+    WordUpTheme {
         WordsCollection("", "Collection #1", listOf())
     }
 }

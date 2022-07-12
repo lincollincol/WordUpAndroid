@@ -18,7 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.linc.wordcard.ui.menu.model.MenuItem
 import com.linc.wordcard.ui.theme.AppTheme
-import com.linc.wordcard.ui.theme.WordCardTheme
+import com.linc.wordcard.ui.theme.WordUpTheme
 
 @Composable
 fun DrawerContent(
@@ -90,7 +90,7 @@ fun DrawerItem(
 @Preview
 @Composable
 fun DrawerItemPreview() {
-    WordCardTheme {
+    WordUpTheme {
         DrawerItem(icon = Icons.Default.Home, label = "Text", isSelected = true, onClick = {})
     }
 }
@@ -98,7 +98,7 @@ fun DrawerItemPreview() {
 @Preview
 @Composable
 fun DrawerContentPreview() {
-    WordCardTheme {
+    WordUpTheme {
         DrawerContent(
             selectedItem = MenuItem.Collections,
             items = listOf(MenuItem.Collections, MenuItem.Bookmarks),

@@ -1,54 +1,51 @@
 package com.linc.wordcard.ui.component
 
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.size
-import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.runtime.*
+import androidx.compose.foundation.layout.height
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import com.linc.wordcard.ui.theme.AppTheme
 import com.linc.wordcard.ui.theme.WordUpTheme
 
 @Composable
-fun AppFloatingActionButton(
+fun AppButton(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     surfaceColor: Color = AppTheme.colors.primarySurfaceColor,
     contentColor: Color = AppTheme.colors.primaryContentColor,
-    imageVector: ImageVector,
+    elevation: Dp = AppTheme.dimens.elevationSmall,
+    text: String,
     onClick: () -> Unit
 ) {
     Button(
         modifier = Modifier
-            .size(AppTheme.dimens.fabMedium)
+            .height(56.dp)
             .then(modifier),
         colors = ButtonDefaults.buttonColors(
             backgroundColor = surfaceColor,
             contentColor = contentColor
         ),
-        elevation = ButtonDefaults.elevation(AppTheme.dimens.elevationSmall),
+        elevation = ButtonDefaults.elevation(elevation),
         shape = AppTheme.shapes.large,
         contentPadding = PaddingValues(),
         enabled = enabled,
         onClick = onClick
     ) {
-        Icon(imageVector = imageVector, contentDescription = null)
+        Text(text = text, style = AppTheme.typographies.button)
     }
 }
 
 @Preview
 @Composable
-private fun AppFloatingActionButtonPreview() {
+fun AppButtonPreview() {
     WordUpTheme {
-        AppFloatingActionButton(
-            imageVector = Icons.Default.Check,
-            surfaceColor = AppTheme.colors.primarySurfaceColor,
-            contentColor = AppTheme.colors.primaryContentColor,
-            onClick = {}
-        )
+        AppButton(text = "Button", onClick = {})
     }
 }
