@@ -1,4 +1,4 @@
-package com.linc.wordcard.ui.signin
+package com.linc.wordcard.ui.signup
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.interaction.InteractionSource
@@ -10,7 +10,6 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Lock
-import androidx.compose.material.icons.outlined.Login
 import androidx.compose.material.icons.outlined.Mail
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.ripple.rememberRipple
@@ -38,8 +37,9 @@ import com.linc.wordcard.ui.theme.WordUpTheme
 import io.ktor.util.reflect.*
 
 @Composable
-fun SignInScreen(
-    state: SignInUiState,
+fun SignUpScreen(
+    state: SignUpUiState,
+    onNameChange: (String) -> Unit,
     onLoginChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
     onSignInClick: () -> Unit,
@@ -61,7 +61,7 @@ fun SignInScreen(
                         horizontalBias = 0F
                     )
                 },
-            text = "WordUp",
+            text = "Create account",
             style = AppTheme.typographies.h4,
             fontWeight = FontWeight.Bold
         )
@@ -81,6 +81,14 @@ fun SignInScreen(
             AppTextField(
                 modifier = Modifier.fillMaxWidth(),
                 value = state.login,
+                hint = "name",
+                startIcon = Icons.Outlined.Person,
+                onValueChange = onNameChange
+            )
+            Spacer(modifier = Modifier.height(AppTheme.dimens.paddingLarge))
+            AppTextField(
+                modifier = Modifier.fillMaxWidth(),
+                value = state.login,
                 hint = "login",
                 startIcon = Icons.Outlined.Mail,
                 onValueChange = onLoginChange
@@ -97,8 +105,8 @@ fun SignInScreen(
             Spacer(modifier = Modifier.height(AppTheme.dimens.paddingLarge))
             AppButton(
                 modifier = Modifier.fillMaxWidth(),
-                text = "Sign In",
-                onClick = onSignInClick
+                text = "Sign Up",
+                onClick = onSignUpClick
             )
         }
         Column(
@@ -109,7 +117,7 @@ fun SignInScreen(
                 },
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "Don't have an account?")
+            Text(text = "Already have an account?")
             Text(
                 modifier = Modifier
                     .clip(AppTheme.shapes.medium)
@@ -119,10 +127,10 @@ fun SignInScreen(
                             color = AppTheme.colors.primarySurfaceColor
                         ),
                         interactionSource = remember { MutableInteractionSource() },
-                        onClick = onSignUpClick
+                        onClick = onSignInClick
                     )
                     .padding(AppTheme.dimens.paddingMedium),
-                text = "Sign Up",
+                text = "Sign In",
                 style = AppTheme.typographies.button.copy(fontWeight = FontWeight.Bold)
             )
         }
@@ -131,10 +139,11 @@ fun SignInScreen(
 
 @Preview(device = Devices.PIXEL_XL, showBackground = true)
 @Composable
-fun SignInScreenPreview() {
+private fun SignUpScreenPreview() {
     WordUpTheme {
-        SignInScreen(
-            state = SignInUiState(),
+        SignUpScreen(
+            state = SignUpUiState(),
+            onNameChange = {},
             onLoginChange = {},
             onPasswordChange = {},
             onSignUpClick = {},

@@ -1,5 +1,23 @@
 package com.linc.wordcard.ui.navigation.model
 
-enum class AppScreen {
-    SignIn, SignUp, Collections, NewCollection, Bookmarks, Card
+import com.linc.wordcard.entity.Word
+import com.linc.wordcard.ui.navigation.model.AppScreen.Card.WORD_ID_ARG
+
+sealed class AppScreen(val route: String) {
+
+   object SignIn : AppScreen("sign_in")
+
+   object SignUp : AppScreen("sign_up")
+
+   object Collections : AppScreen("collections")
+
+   object NewCollection : AppScreen("new_collection")
+
+   object Bookmarks : AppScreen("bookmarks")
+
+   object Card : AppScreen("card/{wordId}") {
+       const val WORD_ID_ARG = "wordId"
+       fun createRoute(id: String) = "card/$id"
+   }
+
 }

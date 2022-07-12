@@ -25,20 +25,18 @@ import kotlinx.coroutines.launch
 @Composable
 fun WordUpApp() {
     WordUpTheme {
+        val menuItems = listOf(MenuItem.Bookmarks, MenuItem.Collections)
         val systemUiController = rememberSystemUiController()
         val scaffoldState = rememberScaffoldState()
         val coroutineScope = rememberCoroutineScope()
         val navController = rememberNavController()
-        val menuItemsState = remember {
-            mutableStateListOf(MenuItem.Bookmarks, MenuItem.Collections)
-        }
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         var selectedMenuItemState by remember { mutableStateOf<MenuItem>(MenuItem.Bookmarks) }
-        var topAppBarState by rememberSaveable { mutableStateOf(false) }
+        var topBarVisibleState by rememberSaveable { mutableStateOf(false) }
 
-        topAppBarState = when (navBackStackEntry?.destination?.route) {
-            AppScreen.SignUp.name,
-            AppScreen.SignIn.name -> false
+        topBarVisibleState = when (navBackStackEntry?.destination?.route) {
+            AppScreen.SignUp.route,
+            AppScreen.SignIn.route -> false
             else -> true
         }
 
@@ -48,7 +46,7 @@ fun WordUpApp() {
             modifier = Modifier.fillMaxSize(),
             scaffoldState = scaffoldState,
             topBar = {
-                AnimatedVisibility(visible = topAppBarState) {
+                if(topBarVisibleState) {
                     DrawerToolbar(title = "Words", elevation = AppTheme.dimens.paddingMedium) {
                         coroutineScope.launch { scaffoldState.drawerState.open() }
                     }
@@ -57,10 +55,11 @@ fun WordUpApp() {
             drawerContent = {
                 DrawerContent(
                     selectedItem = selectedMenuItemState,
-                    items = menuItemsState,
+                    items = menuItems,
                     onItemClick = { selectedMenuItemState = it }
                 )
-            }
+            },
+            drawerGesturesEnabled = topBarVisibleState
         ) {
             AppNavGraph(navHostController = navController)
         }

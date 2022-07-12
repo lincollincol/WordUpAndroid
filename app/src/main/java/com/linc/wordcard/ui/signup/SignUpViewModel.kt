@@ -1,4 +1,4 @@
-package com.linc.wordcard.ui.signin
+package com.linc.wordcard.ui.signup
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -11,17 +11,21 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SignInViewModel @Inject constructor(
+class SignUpViewModel @Inject constructor(
     private val usersRepository: UsersRepository
 ) : ViewModel() {
 
-    var uiState: SignInUiState by mutableStateOf(SignInUiState())
+    var uiState: SignUpUiState by mutableStateOf(SignUpUiState())
 
     fun updateLogin(login: String) {
         uiState = uiState.copy(login = login)
     }
 
     fun updatePassword(password: String) {
+        uiState = uiState.copy(password = password)
+    }
+
+    fun updateName(password: String) {
         uiState = uiState.copy(password = password)
     }
 

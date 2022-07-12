@@ -14,6 +14,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import com.linc.wordcard.entity.WordsCollection
+import com.linc.wordcard.ui.collections.model.CollectionsUiState
 import com.linc.wordcard.ui.component.AppFloatingActionButton
 import com.linc.wordcard.ui.navigation.model.AppScreen
 import com.linc.wordcard.ui.theme.AppTheme
@@ -21,19 +22,24 @@ import com.linc.wordcard.ui.theme.WordUpTheme
 
 @Composable
 fun CollectionsScreen(
-    viewModel: CollectionsViewModel,
-    navController: NavController
+//    viewModel: CollectionsViewModel,
+//    navController: NavController
+    state: CollectionsUiState,
+    onLoadCollections: () -> Unit,
+    onCollectionClick: (id: String) -> Unit,
+    onNewCollectionClick: () -> Unit,
 ) {
-    val state = viewModel.uiState
+//    val state = viewModel.uiState
 
     Box(modifier = Modifier.fillMaxSize()) {
         LazyColumn(
             contentPadding = PaddingValues(AppTheme.dimens.paddingSmall),
             verticalArrangement = Arrangement.spacedBy(AppTheme.dimens.paddingMedium)
         ) {
-            items(state.collections) {
-                CollectionItem(collection = it) {
-                    navController.navigate(AppScreen.Card.name + "/${it.id}")
+            items(state.collections) { collection ->
+                CollectionItem(collection = collection) {
+                    onCollectionClick(requireNotNull(collection.id))
+//                    navController.navigate(AppScreen.Card.createRoute())
                 }
             }
         }
@@ -45,13 +51,15 @@ fun CollectionsScreen(
             surfaceColor = AppTheme.colors.primarySurfaceColor,
             contentColor = AppTheme.colors.primaryContentColor,
             onClick = {
-                navController.navigate(AppScreen.NewCollection.name)
+                onNewCollectionClick()
+//                navController.navigate(AppScreen.NewCollection.name)
             }
         )
     }
 
     LaunchedEffect(key1 = Unit) {
-        viewModel.loadCollections()
+        onLoadCollections()
+//        viewModel.loadCollections()
     }
 }
 
