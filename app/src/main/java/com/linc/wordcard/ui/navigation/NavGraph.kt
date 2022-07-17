@@ -30,32 +30,7 @@ fun AppNavGraph(
         navController = navHostController,
         startDestination = startDestination.route
     ) {
-        composable(route = AppScreen.SignIn.route) {
-            val viewModel = hiltViewModel<SignInViewModel>()
-            SignInScreen(
-                state = viewModel.uiState,
-                onLoginChange = viewModel::updateLogin,
-                onPasswordChange = viewModel::updatePassword,
-                onSignInClick = { navHostController.navigate(AppScreen.Collections.route) },
-                onSignUpClick = { navHostController.navigate(AppScreen.SignUp.route) }
-            )
-        }
-        composable(route = AppScreen.SignUp.route) {
-            val viewModel = hiltViewModel<SignUpViewModel>()
-            SignUpScreen(
-                state = viewModel.uiState,
-                onNameChange = viewModel::updateName,
-                onLoginChange = viewModel::updateLogin,
-                onPasswordChange = viewModel::updatePassword,
-                onSignInClick = { navHostController.navigate(AppScreen.Collections.route) },
-                onSignUpClick = {
-                    navHostController.popBackStack(
-                        route = AppScreen.SignIn.route,
-                        inclusive = false
-                    )
-                }
-            )
-        }
+        addAuthGraph(navHostController)
         composable(route = AppScreen.Collections.route) {
             val viewModel = hiltViewModel<CollectionsViewModel>()
             CollectionsScreen(
@@ -86,5 +61,26 @@ fun AppNavGraph(
         composable(AppScreen.Bookmarks.route) {
 
         }
+    }
+}
+
+fun NavGraphBuilder.addAuthGraph(
+    navHostController: NavHostController
+) {
+    composable(route = AppScreen.SignIn.route) {
+        val viewModel = hiltViewModel<SignInViewModel>()
+        SignInScreen(
+            state = viewModel.uiState,
+            onIntent = viewModel::obtainIntent,
+            navigate = navHostController::navigate
+        )
+    }
+    composable(route = AppScreen.SignUp.route) {
+        val viewModel = hiltViewModel<SignUpViewModel>()
+        SignUpScreen(
+            state = viewModel.uiState,
+            onIntent = viewModel::obtainIntent,
+            navigate = { navHostController.navigate(it) },
+        )
     }
 }

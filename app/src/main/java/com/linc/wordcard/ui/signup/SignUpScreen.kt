@@ -1,12 +1,8 @@
 package com.linc.wordcard.ui.signup
 
-import androidx.compose.foundation.*
-import androidx.compose.foundation.interaction.InteractionSource
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
-import androidx.compose.material.OutlinedButton
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Lock
@@ -14,36 +10,27 @@ import androidx.compose.material.icons.outlined.Mail
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.VerticalAlignmentLine
-import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.navigation.NavController
 import com.linc.wordcard.ui.component.AppButton
 import com.linc.wordcard.ui.component.AppTextField
-import com.linc.wordcard.ui.navigation.model.AppScreen
+import com.linc.wordcard.ui.signup.model.*
 import com.linc.wordcard.ui.theme.AppTheme
 import com.linc.wordcard.ui.theme.WordUpTheme
-import io.ktor.util.reflect.*
 
 @Composable
 fun SignUpScreen(
     state: SignUpUiState,
-    onNameChange: (String) -> Unit,
-    onLoginChange: (String) -> Unit,
-    onPasswordChange: (String) -> Unit,
-    onSignInClick: () -> Unit,
-    onSignUpClick: () -> Unit
+    onIntent: (SignUpIntent) -> Unit,
+    navigate: (String) -> Unit
 ) {
     ConstraintLayout(
         modifier = Modifier.fillMaxSize()
@@ -83,7 +70,7 @@ fun SignUpScreen(
                 value = state.login,
                 hint = "name",
                 startIcon = Icons.Outlined.Person,
-                onValueChange = onNameChange
+                onValueChange = { onIntent(NameChange(it)) }
             )
             Spacer(modifier = Modifier.height(AppTheme.dimens.paddingLarge))
             AppTextField(
@@ -91,7 +78,7 @@ fun SignUpScreen(
                 value = state.login,
                 hint = "login",
                 startIcon = Icons.Outlined.Mail,
-                onValueChange = onLoginChange
+                onValueChange = { onIntent(LoginChange(it)) }
             )
             Spacer(modifier = Modifier.height(AppTheme.dimens.paddingLarge))
             AppTextField(
@@ -100,13 +87,13 @@ fun SignUpScreen(
                 hint = "password",
                 startIcon = Icons.Outlined.Lock,
                 visualTransformation = PasswordVisualTransformation(),
-                onValueChange = onPasswordChange
+                onValueChange = { onIntent(PasswordChange(it)) }
             )
             Spacer(modifier = Modifier.height(AppTheme.dimens.paddingLarge))
             AppButton(
                 modifier = Modifier.fillMaxWidth(),
                 text = "Sign Up",
-                onClick = onSignUpClick
+                onClick = { onIntent(SignUpClick) }
             )
         }
         Column(
@@ -127,12 +114,18 @@ fun SignUpScreen(
                             color = AppTheme.colors.primarySurfaceColor
                         ),
                         interactionSource = remember { MutableInteractionSource() },
-                        onClick = onSignInClick
+                        onClick = { onIntent(SignInClick) }
                     )
                     .padding(AppTheme.dimens.paddingMedium),
                 text = "Sign In",
                 style = AppTheme.typographies.button.copy(fontWeight = FontWeight.Bold)
             )
+        }
+    }
+    LaunchedEffect(state.navRoute) {
+        state.navRoute?.let {
+            navigate(it)
+            onIntent(FinishNavigation)
         }
     }
 }
@@ -143,11 +136,8 @@ private fun SignUpScreenPreview() {
     WordUpTheme {
         SignUpScreen(
             state = SignUpUiState(),
-            onNameChange = {},
-            onLoginChange = {},
-            onPasswordChange = {},
-            onSignUpClick = {},
-            onSignInClick = {},
+            onIntent = {},
+            navigate = {},
         )
     }
 }
