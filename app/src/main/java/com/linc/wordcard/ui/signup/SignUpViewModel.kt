@@ -16,9 +16,10 @@ import javax.inject.Inject
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
     private val usersRepository: UsersRepository
-) : BaseViewModel<SignUpIntent>() {
+) : BaseViewModel<SignUpUiState, SignUpIntent>() {
 
-    var uiState: SignUpUiState by mutableStateOf(SignUpUiState())
+    override var uiState: SignUpUiState by mutableStateOf(SignUpUiState())
+        private set
 
     override fun obtainIntent(intent: SignUpIntent) {
         when(intent) {
@@ -27,7 +28,6 @@ class SignUpViewModel @Inject constructor(
             is PasswordChange -> updatePassword(intent.value)
             is SignUpClick -> handleSignUp()
             is SignInClick -> handleSignIn()
-            is FinishNavigation -> handleFinishNavigation()
         }
     }
 
@@ -44,15 +44,11 @@ class SignUpViewModel @Inject constructor(
     }
 
     private fun handleSignUp() {
-//        uiState = uiState.copy(navRoute = AppScreen.SignUp.route)
+        navigateToNewRoot(AppScreen.Collections.route)
     }
 
     private fun handleSignIn() {
-        uiState = uiState.copy(navRoute = AppScreen.SignIn.route)
-    }
-
-    private fun handleFinishNavigation() {
-        uiState = uiState.copy(navRoute = null)
+        navigateBack()
     }
 
 }

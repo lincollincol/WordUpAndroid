@@ -29,8 +29,7 @@ import com.linc.wordcard.ui.theme.WordUpTheme
 @Composable
 fun SignUpScreen(
     state: SignUpUiState,
-    onIntent: (SignUpIntent) -> Unit,
-    navigate: (String) -> Unit
+    onIntent: (SignUpIntent) -> Unit
 ) {
     ConstraintLayout(
         modifier = Modifier.fillMaxSize()
@@ -122,12 +121,6 @@ fun SignUpScreen(
             )
         }
     }
-    LaunchedEffect(state.navRoute) {
-        state.navRoute?.let {
-            navigate(it)
-            onIntent(FinishNavigation)
-        }
-    }
 }
 
 @Preview(device = Devices.PIXEL_XL, showBackground = true)
@@ -137,7 +130,6 @@ private fun SignUpScreenPreview() {
         SignUpScreen(
             state = SignUpUiState(),
             onIntent = {},
-            navigate = {},
         )
     }
 }

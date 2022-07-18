@@ -6,5 +6,4 @@ data class SignUpUiState(
     val login: String = String.EMPTY,
     val password: String = String.EMPTY,
     val name: String = String.EMPTY,
-    val navRoute: String? = null
 )

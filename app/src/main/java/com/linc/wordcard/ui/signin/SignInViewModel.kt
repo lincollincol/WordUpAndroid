@@ -17,9 +17,9 @@ import javax.inject.Inject
 @HiltViewModel
 class SignInViewModel @Inject constructor(
     private val usersRepository: UsersRepository
-) : BaseViewModel<SignInIntent>() {
+) : BaseViewModel<SignInUiState, SignInIntent>() {
 
-    var uiState: SignInUiState by mutableStateOf(SignInUiState())
+    override var uiState: SignInUiState by mutableStateOf(SignInUiState())
         private set
 
     override fun obtainIntent(intent: SignInIntent) {
@@ -28,7 +28,6 @@ class SignInViewModel @Inject constructor(
             is PasswordChange -> updatePassword(intent.value)
             is SignUpClick -> handleSignUp()
             is SignInClick -> handleSignIn()
-            is FinishNavigation -> handleFinishNavigation()
         }
     }
 
@@ -42,19 +41,12 @@ class SignInViewModel @Inject constructor(
 
     private fun handleSignIn() {
         viewModelScope.launch {
-            println("SEND REQUEST")
-            delay(5000)
-            println("RECEIVE RESPONSE")
-            uiState = uiState.copy(navRoute = AppScreen.Collections.route)
+            navigateToNewRoot(AppScreen.Collections.route)
         }
     }
 
     private fun handleSignUp() {
-        uiState = uiState.copy(navRoute = AppScreen.SignUp.route)
-    }
-
-    private fun handleFinishNavigation() {
-        uiState = uiState.copy(navRoute = null)
+        navigateTo(AppScreen.SignUp.route)
     }
 
 }
