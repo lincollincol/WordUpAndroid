@@ -3,7 +3,6 @@ package com.linc.wordcard.ui.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -13,17 +12,14 @@ import com.linc.wordcard.ui.collections.CollectionsViewModel
 import com.linc.wordcard.ui.navigation.model.AppScreen
 import com.linc.wordcard.ui.newcollection.NewCollectionScreen
 import com.linc.wordcard.ui.newcollection.NewCollectionViewModel
-import com.linc.wordcard.ui.signin.SignInScreen
-import com.linc.wordcard.ui.signin.SignInViewModel
-import com.linc.wordcard.ui.signup.SignUpScreen
-import com.linc.wordcard.ui.signup.SignUpViewModel
 import com.linc.wordcard.ui.word.WordScreen
 import com.linc.wordcard.ui.word.WordViewModel
+import com.linc.wordcard.ui.word.model.WordUiState
 
 @Composable
-fun AppNavGraph(
+fun MainNavGraph(
     modifier: Modifier = Modifier,
-    startDestination: AppScreen = AppScreen.SignIn,
+    startDestination: AppScreen = AppScreen.Collections,
     navHostController: NavHostController
 ) {
     NavHost(
@@ -32,21 +28,20 @@ fun AppNavGraph(
         navController = navHostController,
         startDestination = startDestination.route
     ) {
-        addAuthGraph(navHostController)
         composable(route = AppScreen.Collections.route) {
             val viewModel = hiltViewModel<CollectionsViewModel>()
+            viewModel.observeNavRoute(navHostController::navigate)
             CollectionsScreen(
                 state = viewModel.uiState,
-                onLoadCollections = { viewModel.loadCollections() },
-                onCollectionClick = { navHostController.navigate(AppScreen.Card.createRoute(it)) },
-                onNewCollectionClick = { navHostController.navigate(AppScreen.NewCollection.route) }
+                onIntent = viewModel::obtainIntent
             )
         }
         composable(route = AppScreen.NewCollection.route) {
             val viewModel = hiltViewModel<NewCollectionViewModel>()
+            viewModel.observeNavRoute(navHostController::navigate)
             NewCollectionScreen(
-                viewModel = viewModel,
-                navController = navHostController
+                state = viewModel.uiState,
+                onIntent = viewModel::obtainIntent
             )
         }
         composable(
@@ -56,33 +51,12 @@ fun AppNavGraph(
             val viewModel = hiltViewModel<WordViewModel>()
             WordScreen(
                 wordId = wordId,
-                viewModel = viewModel,
-                navController = navHostController
+                state = viewModel.uiState,
+                onIntent = {}
             )
         }
         composable(AppScreen.Bookmarks.route) {
 
         }
-    }
-}
-
-fun NavGraphBuilder.addAuthGraph(
-    navHostController: NavHostController
-) {
-    composable(route = AppScreen.SignIn.route) {
-        val viewModel = hiltViewModel<SignInViewModel>()
-        viewModel.observeNavRoute(navHostController::navigate)
-        SignInScreen(
-            state = viewModel.uiState,
-            onIntent = viewModel::obtainIntent
-        )
-    }
-    composable(route = AppScreen.SignUp.route) {
-        val viewModel = hiltViewModel<SignUpViewModel>()
-        viewModel.observeNavRoute(navHostController::navigate)
-        SignUpScreen(
-            state = viewModel.uiState,
-            onIntent = viewModel::obtainIntent
-        )
     }
 }

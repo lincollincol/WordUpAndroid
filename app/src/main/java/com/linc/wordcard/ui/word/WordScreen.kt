@@ -6,22 +6,30 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import com.linc.wordcard.ui.theme.AppTheme
 import com.linc.wordcard.ui.theme.WordUpTheme
+import com.linc.wordcard.ui.word.model.LoadWord
+import com.linc.wordcard.ui.word.model.WordIntent
+import com.linc.wordcard.ui.word.model.WordUiState
 import com.wajahatkarim.flippable.Flippable
 import com.wajahatkarim.flippable.rememberFlipController
 
 @Composable
 fun WordScreen(
     wordId: String,
-    viewModel: WordViewModel,
-    navController: NavController,
+    state: WordUiState,
+    onIntent: (WordIntent) -> Unit,
 ) {
+    LaunchedEffect(wordId) {
+        onIntent(LoadWord(wordId))
+    }
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -110,9 +118,9 @@ fun CardControlButton(
     }
 }
 
-@Preview(heightDp = 640, widthDp = 420)
+@Preview(device = Devices.PIXEL_XL, showBackground = true)
 @Composable
-fun WordCardPreview() {
+fun WordScreenPreview() {
     WordUpTheme {
         WordCard(word = "Word")
     }

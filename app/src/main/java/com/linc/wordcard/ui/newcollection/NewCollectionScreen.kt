@@ -18,25 +18,24 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Devices
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import com.linc.wordcard.ui.component.AppFloatingActionButton
 import com.linc.wordcard.ui.component.AppTextField
-import com.linc.wordcard.ui.newcollection.model.DocWordUiState
-import com.linc.wordcard.ui.newcollection.model.isValidCollection
+import com.linc.wordcard.ui.newcollection.model.*
 import com.linc.wordcard.ui.theme.AppTheme
+import com.linc.wordcard.ui.theme.WordUpTheme
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun NewCollectionScreen(
-    viewModel: NewCollectionViewModel,
-    navController: NavController
+    state: NewCollectionUiState,
+    onIntent: (NewCollectionIntent) -> Unit
 ) {
-    val state = viewModel.uiState
     val docPickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.OpenDocument(),
-        onResult = {
-            it?.let(viewModel::updateDocument)
-        }
+        onResult = { onIntent(DocumentChange(it)) }
     )
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -49,7 +48,8 @@ fun NewCollectionScreen(
                 value = state.name.orEmpty(),
                 hint = "Collection name",
                 singleLine = true,
-                onValueChange = viewModel::updateName
+                startIcon = Icons.Default.Title,
+                onValueChange = { onIntent(NameChange(it)) }
             )
             Spacer(modifier = Modifier.height(AppTheme.dimens.paddingLarge))
             AppTextField(
@@ -65,7 +65,7 @@ fun NewCollectionScreen(
                 hint = state.document?.path ?: "Source file",
                 enabled = false,
                 singleLine = true,
-                endIcon = Icons.Default.FolderOpen,
+                startIcon = Icons.Default.FolderOpen,
                 onValueChange = {}
             )
             Spacer(modifier = Modifier.height(AppTheme.dimens.paddingLarge))
@@ -126,6 +126,17 @@ fun DocumentWordItem(
         Text(
             text = itemState.translate,
             style = AppTheme.typographies.h6.copy(fontWeight = FontWeight.Normal)
+        )
+    }
+}
+
+@Preview(device = Devices.PIXEL_XL, showBackground = true)
+@Composable
+private fun NewCollectionScreenPreview() {
+    WordUpTheme {
+        NewCollectionScreen(
+            state = NewCollectionUiState(),
+            onIntent = {}
         )
     }
 }

@@ -44,7 +44,7 @@ class SignUpViewModel @Inject constructor(
     }
 
     private fun handleSignUp() {
-        navigateToNewRoot(AppScreen.Collections.route)
+        navigateToNewRoot(AppScreen.Main.route)
     }
 
     private fun handleSignIn() {

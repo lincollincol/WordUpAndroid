@@ -1,4 +1,4 @@
-package com.linc.wordcard.ui
+package com.linc.wordcard.ui.main
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,12 +23,29 @@ import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun WordUpApp() {
-    WordUpTheme {
-        val systemUiController = rememberSystemUiController()
-        systemUiController.setSystemBarsColor(color = AppTheme.colors.primarySurfaceColor)
-        Surface {
-            AppNavGraph(navHostController = rememberNavController())
+fun MainScreen() {
+    val menuItems = listOf(MenuItem.Bookmarks, MenuItem.Collections)
+    val scaffoldState = rememberScaffoldState()
+    val coroutineScope = rememberCoroutineScope()
+    val navController = rememberNavController()
+    var selectedMenuItemState by remember { mutableStateOf<MenuItem>(MenuItem.Bookmarks) }
+
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        scaffoldState = scaffoldState,
+        topBar = {
+            DrawerToolbar(title = "Words", elevation = AppTheme.dimens.paddingMedium) {
+                coroutineScope.launch { scaffoldState.drawerState.open() }
+            }
+        },
+        drawerContent = {
+            DrawerContent(
+                selectedItem = selectedMenuItemState,
+                items = menuItems,
+                onItemClick = { selectedMenuItemState = it }
+            )
         }
+    ) {
+        MainNavGraph(navHostController = navController)
     }
 }

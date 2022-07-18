@@ -8,9 +8,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.linc.wordcard.data.repository.DocumentRepository
 import com.linc.wordcard.entity.Word
-import com.linc.wordcard.ui.newcollection.model.DocWordUiState
-import com.linc.wordcard.ui.newcollection.model.NewCollectionUiState
-import com.linc.wordcard.ui.newcollection.model.toUiState
+import com.linc.wordcard.ui.common.BaseViewModel
+import com.linc.wordcard.ui.newcollection.model.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -18,15 +17,24 @@ import javax.inject.Inject
 @HiltViewModel
 class NewCollectionViewModel @Inject constructor(
     private val documentRepository: DocumentRepository
-) : ViewModel() {
+) : BaseViewModel<NewCollectionUiState, NewCollectionIntent>() {
 
-    var uiState: NewCollectionUiState by mutableStateOf(NewCollectionUiState())
+    override var uiState: NewCollectionUiState by mutableStateOf(NewCollectionUiState())
+        private set
 
-    fun updateName(name: String) {
+    override fun obtainIntent(intent: NewCollectionIntent) {
+        when(intent) {
+            is NameChange -> updateName(intent.value)
+            is DocumentChange -> updateDocument(intent.value)
+        }
+    }
+
+    private fun updateName(name: String) {
         uiState = uiState.copy(name = name)
     }
 
-    fun updateDocument(uri: Uri) {
+    private fun updateDocument(uri: Uri?) {
+        uri ?: return
         viewModelScope.launch {
             try {
                 uiState = uiState.copy(

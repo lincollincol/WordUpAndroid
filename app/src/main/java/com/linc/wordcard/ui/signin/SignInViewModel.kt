@@ -41,7 +41,7 @@ class SignInViewModel @Inject constructor(
 
     private fun handleSignIn() {
         viewModelScope.launch {
-            navigateToNewRoot(AppScreen.Collections.route)
+            navigateToNewRoot(AppScreen.Main.route)
         }
     }
 
