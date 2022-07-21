@@ -10,7 +10,7 @@
     <application
         android:usesCleartextTraffic="true"
         android:requestLegacyExternalStorage="true"
-        android:name=".WordsUpApplication"
+        android:name=".WordUpApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"

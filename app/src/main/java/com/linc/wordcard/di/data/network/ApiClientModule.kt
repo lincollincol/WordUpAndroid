@@ -10,7 +10,7 @@ import io.ktor.client.plugins.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.logging.*
 import io.ktor.http.*
-import io.ktor.serialization.kotlinx.json.*
+import io.ktor.serialization.gson.*
 import javax.inject.Singleton
 
 @Module
@@ -21,12 +21,13 @@ object ApiClientModule {
     @Singleton
     fun provideKtorClient(): HttpClient {
         return HttpClient(OkHttp) {
+            expectSuccess = true
             install(Logging) {
                 level = LogLevel.BODY
                 logger = Logger.ANDROID
             }
             install(ContentNegotiation) {
-                json()
+                gson()
             }
             defaultRequest {
                 url("http:///192.168.88.19:8885")

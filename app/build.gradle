@@ -2,7 +2,7 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
-    id 'kotlinx-serialization'
+//    id 'kotlinx-serialization'
     id 'dagger.hilt.android.plugin'
 }
 
@@ -91,7 +91,7 @@ dependencies {
     implementation "io.ktor:ktor-client-okhttp:$ktor_version"
     implementation "io.ktor:ktor-client-content-negotiation:$ktor_version"
     implementation "io.ktor:ktor-client-serialization:$ktor_version"
-    implementation "io.ktor:ktor-serialization-kotlinx-json:$ktor_version"
+    implementation "io.ktor:ktor-serialization-gson:$ktor_version"
     implementation "io.ktor:ktor-client-auth:$ktor_version"
     implementation "io.ktor:ktor-client-logging:$ktor_version"
     implementation "ch.qos.logback:logback-classic:1.2.11"
@@ -123,5 +123,7 @@ dependencies {
     implementation "org.apache.poi:poi:$poi_version"
     implementation "org.apache.poi:poi-ooxml:$poi_version"
     implementation 'org.jodd:jodd-util:6.1.0'
+    implementation 'com.jakewharton.timber:timber:5.0.1'
+
 
 }

@@ -26,7 +26,7 @@ class AuthPreferences @Inject constructor(
 
     suspend fun getUserId(): String {
         val preferences = dataStore.data.first()
-        return requireNotNull(preferences[USER_ID_KEY])
+        return preferences[USER_ID_KEY].orEmpty()
     }
 
 }

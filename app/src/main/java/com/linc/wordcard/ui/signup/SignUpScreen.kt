@@ -66,7 +66,7 @@ fun SignUpScreen(
         ) {
             AppTextField(
                 modifier = Modifier.fillMaxWidth(),
-                value = state.login,
+                value = state.name,
                 hint = "name",
                 startIcon = Icons.Outlined.Person,
                 onValueChange = { onIntent(NameChange(it)) }
