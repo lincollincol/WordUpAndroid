@@ -5,12 +5,26 @@ import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.plugins.*
 import io.ktor.client.request.*
+import io.ktor.client.request.forms.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
+import io.ktor.http.content.*
+import java.io.File
 
 abstract class BaseApiService(
     protected val client: HttpClient
 ) {
+
+    protected suspend inline fun <reified R> multipart(
+        path: String,
+        parts: List<FormPart<*>>
+    ): Result<R?> = safeRequest {
+        client.submitFormWithBinaryData(
+            formData = formData { parts.forEach { append(it) } }
+        ) {
+            url.path(path)
+        }
+    }
 
     protected suspend inline fun <reified R, reified B> post(
         path: String,

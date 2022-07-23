@@ -2,6 +2,8 @@ package com.linc.wordcard.ui.navigation.model
 
 sealed class AppScreen(val route: String) {
 
+    object Splash : AppScreen("splash")
+
     object SignIn : AppScreen("sign_in")
 
     object SignUp : AppScreen("sign_up")

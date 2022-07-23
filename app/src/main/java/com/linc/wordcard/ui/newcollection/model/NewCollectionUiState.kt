@@ -2,13 +2,14 @@ package com.linc.wordcard.ui.newcollection.model
 
 import android.net.Uri
 import com.linc.wordcard.entity.Word
+import com.linc.wordcard.extension.EMPTY
 
 data class NewCollectionUiState(
-    val name: String? = null,
+    val name: String = String.EMPTY,
     val document: Uri? = null,
     val words: List<DocWordUiState> = listOf(),
     val isProcessingDoc: Boolean = false
 )
 
 val NewCollectionUiState.isValidCollection: Boolean get() =
-    !name.isNullOrEmpty() && document != null && words.isNotEmpty()
+    name.isNotEmpty() && document != null && words.isNotEmpty()

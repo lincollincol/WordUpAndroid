@@ -6,3 +6,4 @@ sealed interface NewCollectionIntent
 
 data class NameChange(val value: String) : NewCollectionIntent
 data class DocumentChange(val value: Uri?) : NewCollectionIntent
+object SaveClick : NewCollectionIntent

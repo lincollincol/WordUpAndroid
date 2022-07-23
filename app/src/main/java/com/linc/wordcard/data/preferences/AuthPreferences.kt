@@ -29,4 +29,8 @@ class AuthPreferences @Inject constructor(
         return preferences[USER_ID_KEY].orEmpty()
     }
 
+    suspend fun clear() {
+        dataStore.edit { it.clear() }
+    }
+
 }

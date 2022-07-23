@@ -1,20 +1,19 @@
 package com.linc.wordcard.ui.collections.model
 
-import com.linc.wordcard.entity.Word
-import com.linc.wordcard.entity.WordsCollection
+import com.linc.wordcard.entity.collection.Collection
 
 data class SingleCollectionUiState(
     val id: String?,
     val name: String,
-    val words: List<Word>,
+    val wordsCount: Int,
     val onClick: () -> Unit
 )
 
-fun WordsCollection.toUiState(
+fun Collection.toUiState(
     onClick: () -> Unit
 ) = SingleCollectionUiState(
     id = id,
     name = name,
-    words = words,
+    wordsCount = wordsCount,
     onClick = onClick
 )

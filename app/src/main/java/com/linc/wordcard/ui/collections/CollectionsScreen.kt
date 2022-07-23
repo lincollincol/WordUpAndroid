@@ -7,20 +7,17 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavController
-import com.linc.wordcard.entity.WordsCollection
+import com.linc.wordcard.entity.collection.Collection
 import com.linc.wordcard.ui.collections.model.CollectionsIntent
 import com.linc.wordcard.ui.collections.model.CollectionsUiState
 import com.linc.wordcard.ui.collections.model.NewCollectionClick
 import com.linc.wordcard.ui.collections.model.SingleCollectionUiState
 import com.linc.wordcard.ui.component.AppFloatingActionButton
-import com.linc.wordcard.ui.navigation.model.AppScreen
 import com.linc.wordcard.ui.theme.AppTheme
 import com.linc.wordcard.ui.theme.WordUpTheme
 
@@ -80,7 +77,7 @@ fun CollectionItem(
             )
             Spacer(modifier = Modifier.height(AppTheme.dimens.paddingSmall))
             Text(
-                text = "words: ${collection.words.count()}",
+                text = "words: ${collection.wordsCount}",
                 style = AppTheme.typographies.caption,
                 color = AppTheme.colors.secondaryContentColor
             )
@@ -91,7 +88,7 @@ fun CollectionItem(
 @Composable
 fun CollectionItemPreview() {
     WordUpTheme {
-        WordsCollection("", "Collection #1", listOf())
+        Collection("", "Collection #1", 0)
     }
 }
 

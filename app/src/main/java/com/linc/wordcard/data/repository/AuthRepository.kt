@@ -1,5 +1,7 @@
 package com.linc.wordcard.data.repository
 
+import com.linc.wordcard.data.database.Database
+import com.linc.wordcard.data.database.DatabaseManager
 import com.linc.wordcard.data.database.dao.UserDao
 import com.linc.wordcard.data.mappers.toEntity
 import com.linc.wordcard.data.network.api.AuthApiService
@@ -14,6 +16,7 @@ class AuthRepository @Inject constructor(
     private val authApiService: AuthApiService,
     private val userDao: UserDao,
     private val authPreferences: AuthPreferences,
+    private val databaseManager: DatabaseManager,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
 
@@ -30,6 +33,15 @@ class AuthRepository @Inject constructor(
         password: String
     ) = withContext(ioDispatcher) {
         authApiService.postSignIn(login, password)?.let { saveUser(it) }
+    }
+
+    suspend fun signOut() = withContext(ioDispatcher) {
+        databaseManager.clear()
+        authPreferences.clear()
+    }
+
+    suspend fun isLoggedIn(): Boolean {
+        return userDao.selectById(authPreferences.getUserId()) != null
     }
 
     private suspend fun saveUser(userApiModel: UserApiModel) {

@@ -27,7 +27,6 @@ import com.linc.wordcard.ui.newcollection.model.*
 import com.linc.wordcard.ui.theme.AppTheme
 import com.linc.wordcard.ui.theme.WordUpTheme
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun NewCollectionScreen(
     state: NewCollectionUiState,
@@ -98,7 +97,7 @@ fun NewCollectionScreen(
             imageVector = Icons.Default.Check,
             surfaceColor = AppTheme.colors.primarySurfaceColor,
             contentColor = AppTheme.colors.primaryContentColor,
-            onClick = {}
+            onClick = { onIntent(SaveClick) }
         )
     }
 }

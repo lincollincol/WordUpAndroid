@@ -18,13 +18,15 @@ import com.linc.wordcard.ui.signin.SignInScreen
 import com.linc.wordcard.ui.signin.SignInViewModel
 import com.linc.wordcard.ui.signup.SignUpScreen
 import com.linc.wordcard.ui.signup.SignUpViewModel
+import com.linc.wordcard.ui.splash.SplashScreen
+import com.linc.wordcard.ui.splash.SplashViewModel
 import com.linc.wordcard.ui.word.WordScreen
 import com.linc.wordcard.ui.word.WordViewModel
 
 @Composable
 fun AppNavGraph(
     modifier: Modifier = Modifier,
-    startDestination: AppScreen = AppScreen.SignIn,
+    startDestination: AppScreen = AppScreen.Splash,
     navHostController: NavHostController
 ) {
     NavHost(
@@ -32,10 +34,15 @@ fun AppNavGraph(
         navController = navHostController,
         startDestination = startDestination.route
     ) {
-        addAuthGraph(navHostController)
+        composable(AppScreen.Splash.route) {
+            val viewModel = hiltViewModel<SplashViewModel>()
+            viewModel.observeNavRoute(navHostController::navigate)
+            SplashScreen()
+        }
         composable(AppScreen.Main.route) {
             MainScreen()
         }
+        addAuthGraph(navHostController)
     }
 }
 
