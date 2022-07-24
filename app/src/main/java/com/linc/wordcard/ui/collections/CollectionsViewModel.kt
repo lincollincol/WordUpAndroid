@@ -6,14 +6,10 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.linc.wordcard.data.repository.CollectionsRepository
 import com.linc.wordcard.entity.collection.Collection
-import com.linc.wordcard.ui.collections.model.CollectionsIntent
-import com.linc.wordcard.ui.collections.model.CollectionsUiState
-import com.linc.wordcard.ui.collections.model.NewCollectionClick
-import com.linc.wordcard.ui.collections.model.toUiState
+import com.linc.wordcard.ui.collections.model.*
 import com.linc.wordcard.ui.common.BaseViewModel
 import com.linc.wordcard.ui.navigation.model.AppScreen
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -33,6 +29,7 @@ class CollectionsViewModel @Inject constructor(
     override fun obtainIntent(intent: CollectionsIntent) {
         when(intent) {
             NewCollectionClick -> handleNewCollection()
+            LoadCollections -> loadCollections()
         }
     }
 
@@ -53,8 +50,7 @@ class CollectionsViewModel @Inject constructor(
     }
 
     private fun selectCollection(collection: Collection) {
-        val id = collection.id ?: return
-        navigateTo(AppScreen.Card.createRoute(id))
+        navigateTo(AppScreen.CollectionOverview.createRoute(collection.id))
     }
 
 }

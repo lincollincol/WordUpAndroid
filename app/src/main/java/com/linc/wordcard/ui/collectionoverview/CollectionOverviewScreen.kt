@@ -1,10 +1,11 @@
-package com.linc.wordcard.ui.word
+package com.linc.wordcard.ui.collectionoverview
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Bookmark
+import androidx.compose.material.icons.filled.Task
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -12,24 +13,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavController
+import com.linc.wordcard.ui.collectionoverview.model.*
 import com.linc.wordcard.ui.theme.AppTheme
 import com.linc.wordcard.ui.theme.WordUpTheme
-import com.linc.wordcard.ui.word.model.LoadWord
-import com.linc.wordcard.ui.word.model.WordIntent
-import com.linc.wordcard.ui.word.model.WordUiState
 import com.wajahatkarim.flippable.Flippable
 import com.wajahatkarim.flippable.rememberFlipController
 
 @Composable
-fun WordScreen(
-    wordId: String,
-    state: WordUiState,
+fun CollectionOverviewScreen(
+    collectionId: String,
+    state: CollectionOverviewUiState,
     onIntent: (WordIntent) -> Unit,
 ) {
-    LaunchedEffect(wordId) {
-        onIntent(LoadWord(wordId))
+    LaunchedEffect(collectionId) {
+        onIntent(LoadCollection(collectionId))
     }
+    state.currentWord ?: return
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -41,13 +40,13 @@ fun WordScreen(
                 .fillMaxHeight(0.25F),
             frontSide = {
                 WordCard(
-                    word = "Word",
+                    content = state.currentWord.word,
                     modifier = Modifier.fillMaxSize()
                 )
             },
             backSide = {
                 WordCard(
-                    word = "Translate",
+                    content = state.currentWord.translate,
                     modifier = Modifier.fillMaxSize()
                 )
             },
@@ -61,9 +60,9 @@ fun WordScreen(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             CardControlButton(icon = Icons.Filled.Bookmark) {
-
+                onIntent(NextWordClick)
             }
-            CardControlButton(icon = Icons.Filled.Bookmark) {
+            CardControlButton(icon = Icons.Default.Task) {
 
             }
             CardControlButton(icon = Icons.Filled.Bookmark) {
@@ -77,24 +76,26 @@ fun WordScreen(
 @Composable
 fun WordCard(
     modifier: Modifier = Modifier,
-    word: String
+    content: List<String>
 ) {
     Card(
         modifier = Modifier.then(modifier),
         elevation = AppTheme.dimens.paddingMedium,
         shape = AppTheme.shapes.large
     ) {
-        Box(
+        Column(
             modifier = Modifier
                 .fillMaxSize()
                 .background(AppTheme.colors.primarySurfaceColor.copy(alpha = 0.5F)),
-            contentAlignment = Alignment.Center
+            verticalArrangement = Arrangement.Center,
         ) {
-            Text(
-                text = word,
-                color = AppTheme.colors.primaryContentColor,
-                style = AppTheme.typographies.h3
-            )
+            content.forEach { text ->
+                Text(
+                    text = text,
+                    color = AppTheme.colors.primaryContentColor,
+                    style = AppTheme.typographies.h5
+                )
+            }
         }
     }
 }
@@ -122,6 +123,10 @@ fun CardControlButton(
 @Composable
 fun WordScreenPreview() {
     WordUpTheme {
-        WordCard(word = "Word")
+        CollectionOverviewScreen(
+            collectionId = "",
+            state = CollectionOverviewUiState(),
+            onIntent = {}
+        )
     }
 }

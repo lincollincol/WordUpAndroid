@@ -4,21 +4,21 @@ sealed class AppScreen(val route: String) {
 
     object Splash : AppScreen("splash")
 
-    object SignIn : AppScreen("sign_in")
+    object SignIn : AppScreen("sign-in")
 
-    object SignUp : AppScreen("sign_up")
+    object SignUp : AppScreen("sign-up")
 
     object Main : AppScreen("main")
 
     object Collections : AppScreen("collections")
 
-    object NewCollection : AppScreen("new_collection")
+    object NewCollection : AppScreen("new-collection")
 
     object Bookmarks : AppScreen("bookmarks")
 
-    object Card : AppScreen("card/{wordId}") {
-        const val WORD_ID_ARG = "wordId"
-        fun createRoute(id: String) = "card/$id"
+    object CollectionOverview : AppScreen("collection-overview/{id}") {
+        const val ID_ARG = "id"
+        fun createRoute(id: String) = "collection-overview/$id"
     }
 
 }

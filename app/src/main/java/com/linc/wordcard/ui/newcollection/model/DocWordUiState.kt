@@ -1,6 +1,6 @@
 package com.linc.wordcard.ui.newcollection.model
 
-import com.linc.wordcard.entity.Word
+import com.linc.wordcard.entity.word.Word
 import com.linc.wordcard.ui.common.ItemUiState
 
 data class DocWordUiState(
@@ -12,7 +12,7 @@ data class DocWordUiState(
 }
 
 fun Word.toUiState() = DocWordUiState(
-    original = original,
-    translate = translateVariants.joinToString(", "),
+    original = word,
+    translate = translate.joinToString(", "),
     divider = " — "
 )

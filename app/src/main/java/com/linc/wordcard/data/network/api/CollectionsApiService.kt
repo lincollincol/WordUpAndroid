@@ -1,6 +1,7 @@
 package com.linc.wordcard.data.network.api
 
 import com.linc.wordcard.data.network.model.collection.CollectionApiModel
+import com.linc.wordcard.data.network.model.word.UserWordApiModel
 import com.linc.wordcard.extension.binaryHeaders
 import com.linc.wordcard.extension.toFormPart
 import io.ktor.client.*
@@ -27,15 +28,28 @@ class CollectionsApiService @Inject constructor(
         multipart<Unit>("/collections", parts)
     }
 
-    suspend fun getUserCollections(id: String): List<CollectionApiModel> {
-        return getCollections(mapOf("userId" to id))
+    suspend fun getUserCollections(
+        id: String
+    ): List<CollectionApiModel> {
+        return get<List<CollectionApiModel>>(
+            "/collections",
+            mapOf("userId" to id)
+        ).getOrThrow().orEmpty()
     }
 
-    private suspend fun getCollections(
-        parameters: Map<String, String>
-    ): List<CollectionApiModel> {
-        return get<List<CollectionApiModel>>("/collections", parameters)
-            .getOrThrow()
-            .orEmpty()
+    suspend fun getCollectionUserWords(
+        collectionId: String,
+        userId: String,
+        page: Int,
+        perPage: Int
+    ): List<UserWordApiModel> {
+        return get<List<UserWordApiModel>>(
+            "/users/$userId/collections/$collectionId/words",
+            mapOf(
+                "perPage" to perPage.toString(),
+                "page" to page.toString(),
+            )
+        ).getOrThrow().orEmpty()
     }
+
 }

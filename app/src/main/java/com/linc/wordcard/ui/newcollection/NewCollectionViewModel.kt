@@ -4,11 +4,10 @@ import android.net.Uri
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.linc.wordcard.data.repository.CollectionsRepository
 import com.linc.wordcard.data.repository.DocumentRepository
-import com.linc.wordcard.entity.Word
+import com.linc.wordcard.entity.word.Word
 import com.linc.wordcard.ui.common.BaseViewModel
 import com.linc.wordcard.ui.newcollection.model.*
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -69,6 +68,7 @@ class NewCollectionViewModel @Inject constructor(
                     name = uiState.name,
                     uri = uiState.document!!
                 )
+                navigateBack()
             } catch (e: Exception) {
                 Timber.e(e)
             }

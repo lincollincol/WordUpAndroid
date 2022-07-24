@@ -12,9 +12,8 @@ import com.linc.wordcard.ui.collections.CollectionsViewModel
 import com.linc.wordcard.ui.navigation.model.AppScreen
 import com.linc.wordcard.ui.newcollection.NewCollectionScreen
 import com.linc.wordcard.ui.newcollection.NewCollectionViewModel
-import com.linc.wordcard.ui.word.WordScreen
-import com.linc.wordcard.ui.word.WordViewModel
-import com.linc.wordcard.ui.word.model.WordUiState
+import com.linc.wordcard.ui.collectionoverview.CollectionOverviewScreen
+import com.linc.wordcard.ui.collectionoverview.CollectionOverviewViewModel
 
 @Composable
 fun MainNavGraph(
@@ -45,12 +44,12 @@ fun MainNavGraph(
             )
         }
         composable(
-            route = AppScreen.Card.route
+            route = AppScreen.CollectionOverview.route
         ) {
-            val wordId = requireNotNull(it.arguments?.getString(AppScreen.Card.WORD_ID_ARG))
-            val viewModel = hiltViewModel<WordViewModel>()
-            WordScreen(
-                wordId = wordId,
+            val wordId = requireNotNull(it.arguments?.getString(AppScreen.CollectionOverview.ID_ARG))
+            val viewModel = hiltViewModel<CollectionOverviewViewModel>()
+            CollectionOverviewScreen(
+                collectionId = wordId,
                 state = viewModel.uiState,
                 onIntent = {}
             )

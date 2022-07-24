@@ -1,7 +1,6 @@
 package com.linc.wordcard.ui.newcollection.model
 
 import android.net.Uri
-import com.linc.wordcard.entity.Word
 import com.linc.wordcard.extension.EMPTY
 
 data class NewCollectionUiState(

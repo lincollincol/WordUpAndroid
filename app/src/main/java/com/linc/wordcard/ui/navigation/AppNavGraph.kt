@@ -8,20 +8,14 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.linc.wordcard.extension.navigate
-import com.linc.wordcard.ui.collections.CollectionsScreen
-import com.linc.wordcard.ui.collections.CollectionsViewModel
 import com.linc.wordcard.ui.main.MainScreen
 import com.linc.wordcard.ui.navigation.model.AppScreen
-import com.linc.wordcard.ui.newcollection.NewCollectionScreen
-import com.linc.wordcard.ui.newcollection.NewCollectionViewModel
 import com.linc.wordcard.ui.signin.SignInScreen
 import com.linc.wordcard.ui.signin.SignInViewModel
 import com.linc.wordcard.ui.signup.SignUpScreen
 import com.linc.wordcard.ui.signup.SignUpViewModel
 import com.linc.wordcard.ui.splash.SplashScreen
 import com.linc.wordcard.ui.splash.SplashViewModel
-import com.linc.wordcard.ui.word.WordScreen
-import com.linc.wordcard.ui.word.WordViewModel
 
 @Composable
 fun AppNavGraph(
