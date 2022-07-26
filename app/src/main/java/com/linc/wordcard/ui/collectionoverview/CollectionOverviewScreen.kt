@@ -1,18 +1,23 @@
 package com.linc.wordcard.ui.collectionoverview
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Bookmark
-import androidx.compose.material.icons.filled.Task
+import androidx.compose.material.Card
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
+import com.linc.wordcard.R
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.constraintlayout.compose.ConstraintLayout
+import com.linc.wordcard.extension.screenHeightPercent
+import com.linc.wordcard.extension.throttleFirst
 import com.linc.wordcard.ui.collectionoverview.model.*
 import com.linc.wordcard.ui.theme.AppTheme
 import com.linc.wordcard.ui.theme.WordUpTheme
@@ -21,23 +26,29 @@ import com.wajahatkarim.flippable.rememberFlipController
 
 @Composable
 fun CollectionOverviewScreen(
-    collectionId: String,
     state: CollectionOverviewUiState,
     onIntent: (WordIntent) -> Unit,
 ) {
-    LaunchedEffect(collectionId) {
-        onIntent(LoadCollection(collectionId))
+    val flipController = rememberFlipController()
+    if(state.currentWord == null) {
+        return
     }
-    state.currentWord ?: return
-    Column(
+    ConstraintLayout(
         modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+        val (card, controllers) = createRefs()
         Flippable(
             modifier = Modifier
+                .height(IntrinsicSize.Min)
                 .fillMaxWidth(0.8F)
-                .fillMaxHeight(0.25F),
+                .constrainAs(card) {
+                    linkTo(
+                        start = parent.start,
+                        end = parent.end,
+                        top = parent.top,
+                        bottom = controllers.top
+                    )
+                },
             frontSide = {
                 WordCard(
                     content = state.currentWord.word,
@@ -50,23 +61,33 @@ fun CollectionOverviewScreen(
                     modifier = Modifier.fillMaxSize()
                 )
             },
-            flipController = rememberFlipController()
+            flipController = flipController
         )
-
-        Spacer(modifier = Modifier.height(AppTheme.dimens.paddingHuge))
-
-        Row(
-            modifier = Modifier.fillMaxWidth(0.8F),
-            horizontalArrangement = Arrangement.SpaceBetween
+        Column(
+            modifier = Modifier
+                .fillMaxWidth(0.8F)
+                .constrainAs(controllers) {
+                    linkTo(start = parent.start, end = parent.end)
+                    bottom.linkTo(parent.bottom)
+                }
         ) {
-            CardControlButton(icon = Icons.Filled.Bookmark) {
-                onIntent(NextWordClick)
+            Spacer(modifier = Modifier.height(AppTheme.dimens.paddingHuge))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                ControlButton(icon = R.drawable.ic_bookmark_outlined) { onIntent(BookmarkClick) }
+                ControlButton(icon = R.drawable.ic_check_circle_outlined) { onIntent(LearnClick) }
+                ControlButton(icon = R.drawable.ic_edit) { onIntent(EditClick) }
             }
-            CardControlButton(icon = Icons.Default.Task) {
-
-            }
-            CardControlButton(icon = Icons.Filled.Bookmark) {
-
+            Spacer(modifier = Modifier.height(AppTheme.dimens.paddingHuge))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                ControlButton(icon = R.drawable.ic_arrow_back) { onIntent(PreviousClick) }
+                ControlButton(icon = R.drawable.ic_rotate_horizontal) { flipController.flip() }
+                ControlButton(icon = R.drawable.ic_arrow_forward) { onIntent(NextClick) }
             }
         }
     }
@@ -85,35 +106,39 @@ fun WordCard(
     ) {
         Column(
             modifier = Modifier
-                .fillMaxSize()
+                .defaultMinSize(minHeight = screenHeightPercent(percent = 0.25F))
                 .background(AppTheme.colors.primarySurfaceColor.copy(alpha = 0.5F)),
-            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
+            Spacer(modifier = Modifier.height(AppTheme.dimens.paddingLarge))
             content.forEach { text ->
                 Text(
                     text = text,
                     color = AppTheme.colors.primaryContentColor,
-                    style = AppTheme.typographies.h5
+                    style = AppTheme.typographies.h4
                 )
             }
+            Spacer(modifier = Modifier.height(AppTheme.dimens.paddingLarge))
         }
     }
 }
 
 
 @Composable
-fun CardControlButton(
+fun ControlButton(
     modifier: Modifier = Modifier,
-    icon: ImageVector,
+    @DrawableRes icon: Int,
     onClick: () -> Unit
 ) {
+    val coroutineScope = rememberCoroutineScope()
     IconButton(
         modifier = Modifier.then(modifier),
-        onClick = onClick
+        onClick = throttleFirst(coroutineScope = coroutineScope) { onClick() }
     ) {
         Icon(
             modifier = Modifier.size(AppTheme.dimens.iconMedium),
-            imageVector = icon,
+            painter = painterResource(id = icon),
             contentDescription = null
         )
     }
@@ -124,7 +149,6 @@ fun CardControlButton(
 fun WordScreenPreview() {
     WordUpTheme {
         CollectionOverviewScreen(
-            collectionId = "",
             state = CollectionOverviewUiState(),
             onIntent = {}
         )

@@ -1,6 +1,7 @@
 package com.linc.wordcard.ui.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -48,8 +49,10 @@ fun MainNavGraph(
         ) {
             val wordId = requireNotNull(it.arguments?.getString(AppScreen.CollectionOverview.ID_ARG))
             val viewModel = hiltViewModel<CollectionOverviewViewModel>()
+            LaunchedEffect(wordId) {
+                viewModel.loadCollectionWords(wordId)
+            }
             CollectionOverviewScreen(
-                collectionId = wordId,
                 state = viewModel.uiState,
                 onIntent = {}
             )

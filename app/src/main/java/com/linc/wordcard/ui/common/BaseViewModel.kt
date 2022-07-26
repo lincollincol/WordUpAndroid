@@ -2,7 +2,13 @@ package com.linc.wordcard.ui.common
 
 import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.linc.wordcard.ui.navigation.model.*
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
+import timber.log.Timber
 
 abstract class BaseViewModel<U, I> : ViewModel() {
 
@@ -23,6 +29,19 @@ abstract class BaseViewModel<U, I> : ViewModel() {
 
     protected open fun navigateToNewRoot(route: String) {
         this.navCommand = NewRoot(route)
+    }
+
+    protected open fun handleError(error: Throwable) {
+        Timber.e(error)
+    }
+
+    protected fun launchCoroutine(block: suspend CoroutineScope.() -> Unit) {
+        viewModelScope.launch(
+            context = CoroutineExceptionHandler { _, throwable ->
+                handleError(throwable)
+            },
+            block = block
+        )
     }
 
     fun observeNavRoute(onNavigate: (NavCommand) -> Unit) {

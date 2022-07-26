@@ -30,7 +30,8 @@ object ApiClientModule {
                 gson()
             }
             defaultRequest {
-                url("http:///192.168.88.19:8885")
+//                url("http:///192.168.88.19:8885")
+                url("https://wordupserver.herokuapp.com")
                 contentType(ContentType.Application.Json)
             }
         }
