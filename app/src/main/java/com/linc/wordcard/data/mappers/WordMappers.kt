@@ -8,5 +8,6 @@ fun UserWordApiModel.toModel() = UserWord(
     word = word,
     translate = translate,
     bookmarked = bookmarked,
-    learned = learned
+    learned = learned,
+    collectionIndex = collectionIndex
 )

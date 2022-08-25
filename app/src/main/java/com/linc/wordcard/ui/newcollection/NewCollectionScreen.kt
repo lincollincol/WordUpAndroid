@@ -124,7 +124,8 @@ fun DocumentWordItem(
         )
         Text(
             text = itemState.translate,
-            style = AppTheme.typographies.h6.copy(fontWeight = FontWeight.Normal)
+            style = AppTheme.typographies.h6,
+            fontWeight = FontWeight.Normal
         )
     }
 }

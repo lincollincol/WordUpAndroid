@@ -15,6 +15,7 @@ data class Dimens(
     /** Icons */
     val iconTiny: Dp,
     val iconSmall: Dp,
+    val iconExtraMedium: Dp,
     val iconMedium: Dp,
     val iconLarge: Dp,
     val iconHuge: Dp,
@@ -45,6 +46,7 @@ val dimens = Dimens(
 
     iconTiny = 12.dp,
     iconSmall = 24.dp,
+    iconExtraMedium = 32.dp,
     iconMedium = 36.dp,
     iconLarge = 48.dp,
     iconHuge = 96.dp,

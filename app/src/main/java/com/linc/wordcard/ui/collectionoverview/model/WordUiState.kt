@@ -4,15 +4,23 @@ import com.linc.wordcard.entity.word.UserWord
 import com.linc.wordcard.extension.EMPTY
 
 data class WordUiState(
-    val word: List<String> = listOf(),
-    val translate: List<String> = listOf(),
+    val id: String,
+    val wordPreview: String = String.EMPTY,
+    val translatePreview: String = String.EMPTY,
+    val previewDivider: String = " — ",
     val learned: Boolean = false,
-    val bookmarked: Boolean = false
+    val onItemClick: () -> Unit,
+    val onMarkLearnedClick: () -> Unit,
 )
 
-fun UserWord.toUiState() = WordUiState(
-    word = listOf(word),
-    translate = translate,
+fun UserWord.toUiState(
+    onItemClick: () -> Unit,
+    onMarkLearnedClick: () -> Unit
+) = WordUiState(
+    id = id,
+    wordPreview = word,
+    translatePreview = translate.first(),
     learned = learned,
-    bookmarked = bookmarked
+    onItemClick = onItemClick,
+    onMarkLearnedClick = onMarkLearnedClick
 )

@@ -84,8 +84,9 @@ fun CollectionItem(
     }
 }
 
+@Preview
 @Composable
-fun CollectionItemPreview() {
+private fun CollectionItemPreview() {
     WordUpTheme {
         Collection("", "Collection #1", 0)
     }
@@ -93,7 +94,7 @@ fun CollectionItemPreview() {
 
 @Preview(device = Devices.PIXEL_XL, showBackground = true)
 @Composable
-fun CollectionPreview() {
+private fun CollectionPreview() {
     WordUpTheme {
         CollectionsScreen(
             state = CollectionsUiState(),

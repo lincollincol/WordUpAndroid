@@ -8,13 +8,15 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.linc.wordcard.extension.navigate
+import com.linc.wordcard.ui.collectionoverview.CollectionOverviewScreen
+import com.linc.wordcard.ui.collectionoverview.CollectionOverviewViewModel
 import com.linc.wordcard.ui.collections.CollectionsScreen
 import com.linc.wordcard.ui.collections.CollectionsViewModel
 import com.linc.wordcard.ui.navigation.model.AppScreen
 import com.linc.wordcard.ui.newcollection.NewCollectionScreen
 import com.linc.wordcard.ui.newcollection.NewCollectionViewModel
-import com.linc.wordcard.ui.collectionoverview.CollectionOverviewScreen
-import com.linc.wordcard.ui.collectionoverview.CollectionOverviewViewModel
+import com.linc.wordcard.ui.wordoverview.WordOverviewScreen
+import com.linc.wordcard.ui.wordoverview.WordOverviewViewModel
 
 @Composable
 fun MainNavGraph(
@@ -54,7 +56,18 @@ fun MainNavGraph(
             }
             CollectionOverviewScreen(
                 state = viewModel.uiState,
-                onIntent = {}
+                onIntent = viewModel::obtainIntent
+            )
+        }
+        composable(AppScreen.WordOverview.route) {
+            val wordId = requireNotNull(it.arguments?.getString(AppScreen.WordOverview.ID_ARG))
+            val viewModel = hiltViewModel<WordOverviewViewModel>()
+            LaunchedEffect(wordId) {
+                viewModel.loadCollectionWords(wordId)
+            }
+            WordOverviewScreen(
+                state = viewModel.uiState,
+                onIntent = viewModel::obtainIntent
             )
         }
         composable(AppScreen.Bookmarks.route) {

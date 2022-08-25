@@ -21,4 +21,9 @@ sealed class AppScreen(val route: String) {
         fun createRoute(id: String) = "collection-overview/$id"
     }
 
+    object WordOverview : AppScreen("word-overview/{id}") {
+        const val ID_ARG = "id"
+        fun createRoute(id: String) = "word-overview/$id"
+    }
+
 }

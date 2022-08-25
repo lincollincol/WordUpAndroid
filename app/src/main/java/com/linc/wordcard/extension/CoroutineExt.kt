@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
 //}
 
 fun throttleFirst(
-    skipMs: Long = 500L,
+    skipMs: Long = 250L,
     coroutineScope: CoroutineScope,
     destinationFunction: () -> Unit
 ): () -> Unit {
