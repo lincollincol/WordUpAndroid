@@ -23,6 +23,7 @@ abstract class BaseApiService(
             formData = formData { parts.forEach { append(it) } }
         ) {
             url.path(path)
+            contentType(ContentType.MultiPart.FormData)
         }
     }
 
@@ -32,6 +33,7 @@ abstract class BaseApiService(
     ): Result<R?> = safeRequest {
         client.post {
             url.path(path)
+            contentType(ContentType.Application.Json)
             setBody(body)
         }
     }
@@ -42,6 +44,7 @@ abstract class BaseApiService(
     ): Result<R?> = safeRequest {
         client.put {
             url.path(path)
+            contentType(ContentType.Application.Json)
             setBody(body)
         }
     }
@@ -52,6 +55,7 @@ abstract class BaseApiService(
     ): Result<R?> = safeRequest {
         client.get {
             url.path(path)
+            contentType(ContentType.Application.Json)
             parameters.forEach { url.parameters.append(it.key, it.value) }
         }
     }
@@ -62,6 +66,7 @@ abstract class BaseApiService(
     ): Result<R?> = safeRequest {
         client.delete {
             url.path(path)
+            contentType(ContentType.Application.Json)
             parameters.forEach { url.parameters.append(it.key, it.value) }
         }
     }

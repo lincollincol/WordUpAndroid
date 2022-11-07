@@ -24,15 +24,18 @@ object ApiClientModule {
             expectSuccess = true
             install(Logging) {
                 level = LogLevel.BODY
-                logger = Logger.ANDROID
+                logger = Logger.SIMPLE
             }
             install(ContentNegotiation) {
                 gson()
             }
+            install(HttpTimeout) {
+                requestTimeoutMillis = 30_000
+                connectTimeoutMillis = 30_000
+            }
             defaultRequest {
 //                url("http:///192.168.88.19:8885")
                 url("https://wordupserver.herokuapp.com")
-                contentType(ContentType.Application.Json)
             }
         }
     }
